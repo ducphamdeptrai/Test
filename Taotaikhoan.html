@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo tài khoản Gmail</title>
+    <link rel="stylesheet" href="styletaotaikhoan.css"> <!-- Import file CSS của bạn -->
+</head>
+
+<body>
+    <div class="wrapper">
+        <form id="registerForm">
+            <h1>Tạo tài khoản</h1>
+
+            <div class="input-box">
+                <input type="text" id="fullName" placeholder="Họ và tên" required>
+            </div>
+
+
+            <div class="input-box">
+                <input type="password" id="password" placeholder="Mật khẩu" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" id="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+            </div>
+
+            <button type="button" onclick="signInWithGoogle()" class="btn">Đăng ký bằng Gmail</button>
+
+            <br><button type="submit" class="btn">Tạo tài khoản</button>
+
+            <div class="register-link">
+                <p>Đã có tài khoản? <a href="file:///D:/HTML/M%E1%BB%98T%20CH%C3%9AT%20B%C3%80I%20T%E1%BA%ACP/BAITAP.HTML">Đăng nhập</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function signInWithGoogle() {
+            gapi.load('auth2', function () {
+                gapi.auth2.init({
+                    client_id: 'YOUR_GOOGLE_CLIENT_ID',
+                }).then(function () {
+                    const auth2 = gapi.auth2.getAuthInstance();
+                    auth2.signIn().then(function (googleUser) {
+                        const profile = googleUser.getBasicProfile();
+                        document.getElementById('fullName').value = profile.getName();
+                        document.getElementById('username').value = profile.getEmail();
+                    });
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const registerForm = document.getElementById('registerForm');
+
+            registerForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Ngăn chặn gửi form
+
+                // Lấy giá trị từ các ô input
+                const fullName = document.getElementById('fullName').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Kiểm tra xác nhận mật khẩu
+                if (password !== confirmPassword) {
+                    alert('Mật khẩu xác nhận không trùng khớp');
+                    return;
+                }
+
+                // Bạn có thể thêm logic tạo tài khoản Gmail ở đây
+                // Trong ví dụ này, tôi chỉ sử dụng alert
+                alert(`Tạo tài khoản thành công\nHọ và tên: ${fullName}\nEmail: ${username}\nMật khẩu: ${password}`);
+            });
+        });
+    </script>
+</body>
+
+</html>
