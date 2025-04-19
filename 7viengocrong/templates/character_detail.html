@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết nhân vật</title>
+</head>
+<body>
+    <h1>{{ character.name }}</h1>
+    <img src="{{ character.image }}" alt="{{ character.name }} Image" width="200">
+    
+    <p><strong>Giới tính:</strong> {{ character.gender }}</p>
+    <p><strong>Ki:</strong> {{ character.ki }}</p>
+    <p><strong>Giới thiệu:</strong> {{ character.description }}</p>
+    <p><strong>Thuộc về:</strong> {{ character.affiliation }}</p>
+
+    <h2>Biến hình:</h2>
+    <ul>
+        {% for transformation in character.transformations %}
+            <li>
+                <h3>{{ transformation.name }}</h3>
+                <img src="{{ transformation.image }}" alt="{{ transformation.name }}" width="150">
+                <p><strong>Ki:</strong> {{ transformation.ki }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if character.originPlanet %}
+        <h3>Hành tinh gốc:</h3>
+        <img src="{{ character.originPlanet.image }}" alt="{{ character.originPlanet.name }}" width="150">
+        <p><strong>Hành tinh:</strong> {{ character.originPlanet.name }}</p>
+        <p><strong>Mô tả:</strong> {{ character.originPlanet.description }}</p>
+    {% else %}
+        <p>Thông tin hành tinh gốc không có sẵn.</p>
+    {% endif %}
+
+    <a href="/">Quay lại</a>
+</body>
+</html>
