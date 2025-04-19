@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ transformation.name }} - Transformation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .transformation-container {
+            background: white;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .transformation-container img {
+            width: 100%;          /* Đảm bảo ảnh không vượt qua chiều rộng của container */
+            max-width: 500px;     /* Giới hạn chiều rộng tối đa của ảnh */
+            max-height: 300px;    /* Giới hạn chiều cao tối đa của ảnh */
+            object-fit: contain;  /* Giữ tỷ lệ khung hình mà không làm biến dạng ảnh */
+            border-radius: 10px;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="transformation-container">
+        <h1>{{ transformation.name }}</h1>
+        {% if transformation.image %}
+            <img src="{{ transformation.image }}" alt="{{ transformation.name }}">
+        {% endif %}
+        <p><strong>Ki:</strong> {{ transformation.ki or "Không rõ" }}</p>
+        <p><strong>Nhân vật:</strong> <a href="/character/{{ character.id }}">{{ character.name }}</a></p>
+        <a class="back-link" href="/character/{{ character.id }}">⬅️ Quay lại chi tiết nhân vật</a>
+    </div>
+</body>
+</html>

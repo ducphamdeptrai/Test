@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dragon Ball Characters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: #fff;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            height: 50px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 60%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .character-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .character-card {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+        .character-card img {
+            height: 100px;
+            width: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+        .character-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+        .info-item {
+            font-size: 15px;
+        }
+        .view-details {
+            margin-top: 10px;
+        }
+        .view-details a {
+            display: inline-block;
+            background-color: #2196F3;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #4CAF50;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="https://web.dragonball-api.com/images-compress/logo_dragonballapi.webp" alt="Logo" class="logo">
+    </div>
+    <div class="container">
+        <form method="POST" onsubmit="showLoader()">
+            <input type="text" name="name" placeholder="Nhập tên nhân vật..." required>
+            <button type="submit">Tìm kiếm</button>
+        </form>
+
+        <div id="loader" class="loader"></div>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if characters %}
+            <ul class="character-list">
+                {% for character in characters %}
+                    <li class="character-card">
+                        <img src="{{ character.image }}" alt="{{ character.name }}">
+                        <div class="character-info">
+                            <div class="info-item"><strong>Tên:</strong> {{ character.name }}</div>
+                            <div class="info-item"><strong>Chủng tộc:</strong> {{ character.race }}</div>
+                            <div class="info-item"><strong>Giới tính:</strong> {{ character.gender }}</div>
+                            <div class="info-item"><strong>Ki:</strong> {{ character.ki }}</div>
+                            <div class="info-item"><strong>Đội:</strong> {{ character.affiliation }}</div>
+                        </div>
+                        <div class="view-details">
+                            <a href="{{ url_for('character_detail', id=character.id) }}">Xem chi tiết</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>

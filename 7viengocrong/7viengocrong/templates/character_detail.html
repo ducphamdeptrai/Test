@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ character.name }} - Chi tiết nhân vật</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .character-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .character-image {
+            width: 200px;
+            border-radius: 8px;
+        }
+        .transformation-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .transformation-card {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 200px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .transformation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .transformation-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .planet-section img {
+            margin-top: 10px;
+            width: 150px;
+            border-radius: 8px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="character-container">
+        <h1>{{ character.name }}</h1>
+        {% if character.image %}
+            <img class="character-image" src="{{ character.image }}" alt="{{ character.name }}">
+        {% endif %}
+
+        <p><strong>Giới tính:</strong> {{ character.gender or "Không rõ" }}</p>
+        <p><strong>Ki:</strong> {{ character.ki or "Không có thông tin" }}</p>
+        <p><strong>Giới thiệu:</strong> {{ character.description or "Chưa có mô tả." }}</p>
+        <p><strong>Thuộc về:</strong> {{ character.affiliation or "Không rõ" }}</p>
+
+        {% if character.transformations %}
+            <h2>Biến hình</h2>
+            <div class="transformation-list">
+                {% for transformation in character.transformations %}
+                <a href="/character/{{ character.id }}/transformation/{{ transformation.name | urlencode }}" class="transformation-card">
+                        {% if transformation.image %}
+                            <img src="{{ transformation.image }}" alt="{{ transformation.name }}">
+                        {% endif %}
+                        <h3>{{ transformation.name }}</h3>
+                        <p><strong>Ki:</strong> {{ transformation.ki or "Không rõ" }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p><em>Không có thông tin biến hình.</em></p>
+        {% endif %}
+
+        {% if character.originPlanet %}
+            <h2>Hành tinh gốc</h2>
+            <div class="planet-section">
+                {% if character.originPlanet.image %}
+                    <img src="{{ character.originPlanet.image }}" alt="{{ character.originPlanet.name }}">
+                {% endif %}
+                <p><strong>Hành tinh:</strong> {{ character.originPlanet.name or "Không rõ" }}</p>
+                <p><strong>Mô tả:</strong> {{ character.originPlanet.description or "Không có mô tả." }}</p>
+            </div>
+        {% else %}
+            <p><em>Thông tin hành tinh gốc không có sẵn.</em></p>
+        {% endif %}
+
+        <a class="back-link" href="/">⬅️ Quay lại danh sách</a>
+    </div>
+</body>
+</html>
